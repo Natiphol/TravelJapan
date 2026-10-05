@@ -1,4 +1,4 @@
-ICHI-JAPAN v1.5.8 · Build 1581
+ICHI-JAPAN v1.5.8 · Build 1582
 Joint Kiosk Arrival Guide + Immigration Coach Update
 อัปเดต 5 ตุลาคม 2026
 
@@ -44,7 +44,7 @@ Joint Kiosk Arrival Guide + Immigration Coach Update
 
 Offline
 - รูป Joint Kiosk ทั้ง 3 รูปถูกเพิ่มเข้า guide pack ของ Service Worker
-- Core build reference ใช้ 1581 ตรงกันใน index/app/discover/service worker
+- Core build reference ใช้ 1582 ตรงกันใน index/app/discover/service worker
 - หลังอัปเดต ให้เข้า ทริปของฉัน > เตรียมใช้ออฟไลน์ใหม่ เพื่อเก็บ guide pack รุ่นใหม่
 
 ไฟล์ใน ZIP
@@ -68,15 +68,25 @@ Offline
 2. แตก ZIP แล้วอัปโหลดไฟล์ทั้งหมดทับที่ root ของ repository TravelJapan
 3. Commit และรอ GitHub Pages deploy
 4. เปิดเว็บขณะออนไลน์แล้วปิดแท็บเก่า/เปิดใหม่
-5. ตรวจ footer ให้ขึ้น v1.5.8 · b1581
+5. ตรวจ footer ให้ขึ้น v1.5.8 · b1582
 6. เข้า ทริปของฉัน > ตรวจอัปเดต
 7. กดเตรียมใช้ออฟไลน์ใหม่
 8. ทดสอบ เดินทาง > เตรียม ตม. > เปิดคู่มือ Joint Kiosk
 
 Regression ที่ต้องผ่าน
 - app.js / travel-data.js / discover.js / places-data.js syntax ผ่าน
-- version/build references เป็น 1.5.8 / 1581
+- version/build references เป็น 1.5.8 / 1582
 - localStorage key ยังเป็น tabi-v1
 - Immigration QA 52 หัวข้อเดิมไม่ถูกลบ
 - Booking/Transportation functions เดิมยังอยู่
 - Service Worker guide pack มี Joint Kiosk images ครบ 3 ไฟล์
+
+============================================================
+HOTFIX · Build 1582 — Joint Kiosk guide navigation
+============================================================
+- แก้ปุ่ม “เปิดคู่มือ Joint Kiosk” ที่ Build 1581 บาง browser กดแล้วไม่เปิด modal
+- เปลี่ยนเป็นเปิดหน้า joint-kiosk.html โดยตรง ไม่พึ่ง custom click-handler
+- รูป Joint Kiosk ทั้ง 3 รูปกดดูเต็มภาพได้
+- เพิ่ม joint-kiosk.html เข้า Offline Guide Pack ของ Service Worker
+- ไม่เปลี่ยน localStorage key (tabi-v1)
+- Ticket / Booking / Immigration Coach / Transportation เดิมไม่เปลี่ยนโครงข้อมูล

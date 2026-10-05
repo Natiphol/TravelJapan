@@ -1,4 +1,4 @@
-import {discoverCities,discoverCategories,discoverAreas,discoverPlaces,discoverFoods,discoverRoutes} from './places-data.js?v=1581';
+import {discoverCities,discoverCategories,discoverAreas,discoverPlaces,discoverFoods,discoverRoutes} from './places-data.js?v=1582';
 
 const tourismById=new Map(discoverPlaces.map(p=>[p.id,p]));
 const foodById=new Map(discoverFoods.map(p=>[p.id,p]));
