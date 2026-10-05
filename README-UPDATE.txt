@@ -1,4 +1,4 @@
-ICHI-JAPAN v1.5.8 · Build 1582
+ICHI-JAPAN v1.5.8 · Build 1583
 Joint Kiosk Arrival Guide + Immigration Coach Update
 อัปเดต 5 ตุลาคม 2026
 
@@ -44,7 +44,7 @@ Joint Kiosk Arrival Guide + Immigration Coach Update
 
 Offline
 - รูป Joint Kiosk ทั้ง 3 รูปถูกเพิ่มเข้า guide pack ของ Service Worker
-- Core build reference ใช้ 1582 ตรงกันใน index/app/discover/service worker
+- Core build reference ใช้ 1583 ตรงกันใน index/app/discover/service worker
 - หลังอัปเดต ให้เข้า ทริปของฉัน > เตรียมใช้ออฟไลน์ใหม่ เพื่อเก็บ guide pack รุ่นใหม่
 
 ไฟล์ใน ZIP
@@ -68,21 +68,21 @@ Offline
 2. แตก ZIP แล้วอัปโหลดไฟล์ทั้งหมดทับที่ root ของ repository TravelJapan
 3. Commit และรอ GitHub Pages deploy
 4. เปิดเว็บขณะออนไลน์แล้วปิดแท็บเก่า/เปิดใหม่
-5. ตรวจ footer ให้ขึ้น v1.5.8 · b1582
+5. ตรวจ footer ให้ขึ้น v1.5.8 · b1583
 6. เข้า ทริปของฉัน > ตรวจอัปเดต
 7. กดเตรียมใช้ออฟไลน์ใหม่
 8. ทดสอบ เดินทาง > เตรียม ตม. > เปิดคู่มือ Joint Kiosk
 
 Regression ที่ต้องผ่าน
 - app.js / travel-data.js / discover.js / places-data.js syntax ผ่าน
-- version/build references เป็น 1.5.8 / 1582
+- version/build references เป็น 1.5.8 / 1583
 - localStorage key ยังเป็น tabi-v1
 - Immigration QA 52 หัวข้อเดิมไม่ถูกลบ
 - Booking/Transportation functions เดิมยังอยู่
 - Service Worker guide pack มี Joint Kiosk images ครบ 3 ไฟล์
 
 ============================================================
-HOTFIX · Build 1582 — Joint Kiosk guide navigation
+HOTFIX · Build 1583 — Joint Kiosk guide navigation
 ============================================================
 - แก้ปุ่ม “เปิดคู่มือ Joint Kiosk” ที่ Build 1581 บาง browser กดแล้วไม่เปิด modal
 - เปลี่ยนเป็นเปิดหน้า joint-kiosk.html โดยตรง ไม่พึ่ง custom click-handler
@@ -90,3 +90,13 @@ HOTFIX · Build 1582 — Joint Kiosk guide navigation
 - เพิ่ม joint-kiosk.html เข้า Offline Guide Pack ของ Service Worker
 - ไม่เปลี่ยน localStorage key (tabi-v1)
 - Ticket / Booking / Immigration Coach / Transportation เดิมไม่เปลี่ยนโครงข้อมูล
+
+v1.5.8 Build 1583 — Joint Kiosk UX Polish
+- ไม่เปิดภาพ raw/new tab ทีละรูปอีกแล้ว
+- คู่มือภาพ 3 หน้าเป็น carousel เดียว: swipe / ปุ่มก่อนหน้า-ถัดไป / counter / dots
+- แตะรูปเปิด fullscreen viewer ภายในหน้าเดิม และปัดดูทั้ง 3 รูปต่อได้โดยไม่ต้องปิด
+- Fullscreen รองรับ swipe ซ้าย-ขวา, ปัดลงเพื่อปิด, Escape/Arrow keys บน desktop
+- เนื้อหาสำคัญถูกเขียนเป็น HTML ที่อ่านได้โดยตรง ไม่บังคับซูมอ่านข้อความในรูป
+- Sticky section shortcuts + bottom actions สำหรับ Visit Japan Web / กลับ Immigration Coach
+- ลิงก์ภาพจากหน้า Immigration เปิดเข้า slide ที่ตรงกัน ไม่เปิดไฟล์ภาพแยก
+- ใช้ hash #slide-N เพื่อให้ navigation ยังทำงานกับ Offline cache ได้
