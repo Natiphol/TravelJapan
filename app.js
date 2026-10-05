@@ -1,5 +1,5 @@
-import { createDiscover } from './discover.js?v=1590';
-import { phrasebook, routeGuides, railMaps, immigrationQA, etiquette } from './travel-data.js?v=1590';
+import { createDiscover } from './discover.js?v=1583';
+import { phrasebook, routeGuides, railMaps, immigrationQA, etiquette } from './travel-data.js?v=1583';
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])), uid=()=>crypto.randomUUID(), today=()=>{const p=Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(x=>[x.type,x.value]));return p.year+'-'+p.month+'-'+p.day};
 const icons={home:'M3 10 12 3l9 7M5 9v12h5v-6h4v6h5V9',plan:'M4 5h16v16H4zM8 3v4M16 3v4M4 10h16M8 14h2M14 14h2',travel:'M5 4h14v13H5zM5 11h14M8 20l-2 2M16 20l2 2M8 15h1M15 15h1',money:'M3 6h17v15H3zM3 6l14-3v3M15 11h6v5h-6z',trip:'M4 7h16v14H4zM8 7V3h8v4M9 7v14M15 7v14',plus:'M12 5v14M5 12h14',help:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20M9 8a3 3 0 0 1 6 0c0 2-3 2-3 5M12 17h.01',download:'M12 3v12M7 10l5 5 5-5M4 15v6h16v-6',check:'M5 12l4 4L19 6',shop:'M4 7h16l-1 14H5zM8 8V5a4 4 0 0 1 8 0v3',settings:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2',plane:'m3 12 7-2V4c0-3 4-3 4 0v6l7 2v3l-7-1v5l3 2H7l3-2v-5l-7 1z',pin:'M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0M15 10a3 3 0 1 0-6 0 3 3 0 0 0 6 0',edit:'m4 16 12-12 4 4L8 20H4z',refresh:'M20 7a9 9 0 1 0 1 9M20 2v5h-5',chat:'M3 3h18v14H9l-6 4zM7 8h10M7 12h7',file:'M5 2h9l5 5v15H5zM14 2v6h5M8 12h8M8 16h6',trash:'M3 6h18M6 6l1 15h10l1-15M9 6V3h6v3'};
 const icon=n=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="${icons[n]||icons.file}"/></svg>`;
@@ -66,7 +66,7 @@ document.addEventListener('submit',ev=>{ev.preventDefault();const f=ev.target,v=
 $('#docfile').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;if(f.size>8*1024*1024){toast('ไฟล์ต้องไม่เกิน 8 MB');return}if(!/^(image\/(png|jpeg|webp|gif|heic|heif)|application\/pdf)$/.test(f.type)){toast('รองรับภาพ PNG, JPG, WEBP, GIF, HEIC และ PDF');return}const trip=T().id;try{const data=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)});await dbCall('put',{id:uid(),trip,name:f.name,type:f.type,data});S.docRevision=Date.now();save();renderDocs();toast('เก็บไฟล์ไว้ในเครื่องแล้ว')}catch{toast('เก็บไฟล์ไม่ได้ พื้นที่อาจไม่เพียงพอ')}});
 $('#importfile').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{if(f.size>100*1024*1024)throw Error('ไฟล์สำรองใหญ่เกิน 100 MB');const d=validateImport(JSON.parse(await f.text()));if(!confirm('นำเข้าจะรวมทริปใหม่ และแทนที่ทริปที่มีรหัสเดียวกัน ควรสำรองเครื่องนี้ก่อน ดำเนินการต่อไหม?'))return;for(const x of d.files)await dbCall('put',x);for(const t of d.state.trips){const i=S.trips.findIndex(x=>x.id===t.id);if(i>=0)S.trips[i]=t;else S.trips.push(t)}S.current=d.state.current;save();day='';guideAirport='';render();toast('นำเข้าสำเร็จ')}catch(err){toast(err.message||'นำเข้าไม่สำเร็จ')}});
 window.addEventListener('hashchange',()=>{page=location.hash.slice(1);render()});window.addEventListener('online',render);window.addEventListener('offline',render);
-if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=1590').then(r=>r.update()).catch(()=>{});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js?v=1583').then(r=>r.update()).catch(()=>{});
 let swRefreshed=false;navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(!swRefreshed){swRefreshed=true;toast('ICHI-JAPAN อัปเดตพร้อมแล้ว ปิดแล้วเปิดหน้าใหม่ได้เลย')}});
 if(document.modelContext?.registerTool){try{document.modelContext.registerTool({name:'read_trip_summary',description:'Read the selected trip dates and locally recorded financial totals. Does not modify data.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(input){if(!input||typeof input!=='object'||Object.keys(input).length)throw Error('No parameters accepted');const t=T();return {name:t.name,start:t.start,end:t.end,expenseCount:t.expenses.length,...totals(t)}}})}catch{}}
 let phraseLanguage='ja';
@@ -117,7 +117,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)r
 let offlineState=null,offlineError='',offlineProgress='',offlineBusy=false,offlineDownloadQueued=false;
 function offlinePanel(){const names={core:'หน้าแอป + ภาษา + ที่ควรไป',guide:'รูปและตัวอักษร',maps:'แผนที่รถไฟ',audio:'เสียงญี่ปุ่น',english:'เสียงอังกฤษ'},p=offlineState?.packs;return `<div class="offline-groups">${Object.entries(names).map(([k,n])=>`<div class="row"><span>${n}</span><strong>${p?`${p[k].ready}/${p[k].total} ${p[k].ready===p[k].total?'พร้อม':'ยังไม่ครบ'}`:'ยังไม่ได้ตรวจ'}</strong></div>`).join('')}</div><p class="note" role="status">${esc(offlineProgress||offlineError||'ตรวจจากไฟล์ที่เก็บในเบราว์เซอร์นี้')}</p><p class="note">${navigator.serviceWorker?.controller?'หน้าเว็บนี้อยู่ภายใต้ระบบออฟไลน์แล้ว':'ยังต้องรอระบบออฟไลน์ทำงาน แล้วปิด–เปิดหน้าใหม่'}</p><ol class="offline-steps"><li>เปิดลิงก์นี้ใน Safari / Chrome ขณะมีเน็ตและเข้าสู่ระบบให้เรียบร้อย</li><li>เพิ่มลงหน้าจอโฮม แล้วเปิดจากไอคอน ICHI-JAPAN ขณะออนไลน์อีกครั้ง</li><li>กดเตรียมใช้ออฟไลน์ในไอคอนนั้น รอทุกหมวดพร้อม</li><li>เปิดโหมดเครื่องบิน ปิดแล้วเปิดจากไอคอนเดิม ทดลองจดเงินและฟังเสียง</li></ol><p class="note">ครั้งแรกและการเข้าสู่ระบบต้องใช้เน็ต ลิงก์แปลภาษา เรทใหม่ และเส้นทางสดต้องใช้เน็ตด้วย การเพิ่มไอคอนอย่างเดียวไม่ได้ดาวน์โหลดข้อมูล</p>${btn('ฉันทดลองเปิดโหมดเครื่องบินสำเร็จแล้ว','offlineconfirmed','small soft')}<p class="note">${esc(S.offlineTest||'ยังไม่ได้ยืนยันผลทดลองบนเครื่องนี้')}<br>อย่าล้างข้อมูลเว็บก่อนส่งออกบัญชีและสำรอง</p>`}
 function paintOffline(){if($('#offlinePanel'))$('#offlinePanel').innerHTML=offlinePanel()}
-async function offlineRequest(download=false){if(offlineBusy){if(download)offlineDownloadQueued=true;return;}offlineBusy=true;offlineError='';offlineProgress=download?'กำลังเตรียมไฟล์…':'';paintOffline();try{if(!('serviceWorker'in navigator))throw Error('เบราว์เซอร์นี้ไม่รองรับ ให้เปิดใน Safari หรือ Chrome');const reg=navigator.onLine?await navigator.serviceWorker.register('./sw.js?v=1590'):await navigator.serviceWorker.getRegistration();if(!reg)throw Error('ยังไม่ได้เตรียมออฟไลน์ ต้องเปิดออนไลน์ก่อน');if(reg.installing)await new Promise((resolve,reject)=>{const sw=reg.installing,timer=setTimeout(()=>reject(Error('เตรียมหน้าแอปไม่สำเร็จ ลองเปิดลิงก์ตรงและเข้าสู่ระบบใหม่')),30000);const done=()=>{if(sw.state==='activated'){clearTimeout(timer);resolve()}if(sw.state==='redundant'){clearTimeout(timer);reject(Error('ดาวน์โหลดหน้าแอปไม่ผ่าน ตรวจอินเทอร์เน็ตแล้วลองใหม่'))}};sw.addEventListener('statechange',done);done()});const active=reg.active;if(!active)throw Error('ระบบออฟไลน์ยังไม่พร้อม ลองเปิดหน้าใหม่ขณะออนไลน์');const result=await new Promise((resolve,reject)=>{const channel=new MessageChannel(),timer=setTimeout(()=>{channel.port1.close();reject(Error('ตรวจไม่สำเร็จ อาจยังเป็นรุ่นเก่า ปิดแล้วเปิดหน้าใหม่ขณะออนไลน์'))},download?180000:10000);channel.port1.onmessage=e=>{if(e.data.type==='PROGRESS'){offlineProgress=`ดาวน์โหลด ${e.data.done}/${e.data.total} ไฟล์`;paintOffline();return}clearTimeout(timer);channel.port1.close();if(!e.data.ok||e.data.version!==6)reject(Error(e.data.error||'ต้องเปิดเวอร์ชันใหม่ขณะออนไลน์ก่อน'));else resolve(e.data)};active.postMessage({type:download?'CACHE_APP':'STATUS'},[channel.port2])});offlineState=result;offlineProgress=download?(result.failed.length?'ยังไม่ครบ กดดาวน์โหลดซ้ำเพื่อเก็บเฉพาะไฟล์ที่ขาด':'ดาวน์โหลดครบแล้ว ต่อไปทดลองเปิดในโหมดเครื่องบิน'):'';if(download&&navigator.storage?.persist)await navigator.storage.persist().catch(()=>false)}catch(e){offlineError=e.message;offlineProgress=''}finally{offlineBusy=false;paintOffline();if(offlineDownloadQueued){offlineDownloadQueued=false;await offlineRequest(true)}}}
+async function offlineRequest(download=false){if(offlineBusy){if(download)offlineDownloadQueued=true;return;}offlineBusy=true;offlineError='';offlineProgress=download?'กำลังเตรียมไฟล์…':'';paintOffline();try{if(!('serviceWorker'in navigator))throw Error('เบราว์เซอร์นี้ไม่รองรับ ให้เปิดใน Safari หรือ Chrome');const reg=navigator.onLine?await navigator.serviceWorker.register('./sw.js?v=1583'):await navigator.serviceWorker.getRegistration();if(!reg)throw Error('ยังไม่ได้เตรียมออฟไลน์ ต้องเปิดออนไลน์ก่อน');if(reg.installing)await new Promise((resolve,reject)=>{const sw=reg.installing,timer=setTimeout(()=>reject(Error('เตรียมหน้าแอปไม่สำเร็จ ลองเปิดลิงก์ตรงและเข้าสู่ระบบใหม่')),30000);const done=()=>{if(sw.state==='activated'){clearTimeout(timer);resolve()}if(sw.state==='redundant'){clearTimeout(timer);reject(Error('ดาวน์โหลดหน้าแอปไม่ผ่าน ตรวจอินเทอร์เน็ตแล้วลองใหม่'))}};sw.addEventListener('statechange',done);done()});const active=reg.active;if(!active)throw Error('ระบบออฟไลน์ยังไม่พร้อม ลองเปิดหน้าใหม่ขณะออนไลน์');const result=await new Promise((resolve,reject)=>{const channel=new MessageChannel(),timer=setTimeout(()=>{channel.port1.close();reject(Error('ตรวจไม่สำเร็จ อาจยังเป็นรุ่นเก่า ปิดแล้วเปิดหน้าใหม่ขณะออนไลน์'))},download?180000:10000);channel.port1.onmessage=e=>{if(e.data.type==='PROGRESS'){offlineProgress=`ดาวน์โหลด ${e.data.done}/${e.data.total} ไฟล์`;paintOffline();return}clearTimeout(timer);channel.port1.close();if(!e.data.ok||e.data.version!==6)reject(Error(e.data.error||'ต้องเปิดเวอร์ชันใหม่ขณะออนไลน์ก่อน'));else resolve(e.data)};active.postMessage({type:download?'CACHE_APP':'STATUS'},[channel.port2])});offlineState=result;offlineProgress=download?(result.failed.length?'ยังไม่ครบ กดดาวน์โหลดซ้ำเพื่อเก็บเฉพาะไฟล์ที่ขาด':'ดาวน์โหลดครบแล้ว ต่อไปทดลองเปิดในโหมดเครื่องบิน'):'';if(download&&navigator.storage?.persist)await navigator.storage.persist().catch(()=>false)}catch(e){offlineError=e.message;offlineProgress=''}finally{offlineBusy=false;paintOffline();if(offlineDownloadQueued){offlineDownloadQueued=false;await offlineRequest(true)}}}
 function backupSignature(){const c=JSON.parse(JSON.stringify(S));delete c.backupSignature;delete c.offlineTest;for(const t of c.trips)delete t.lastBackup;const str=JSON.stringify(c);let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
 function backupStatus(){return !S.backupSignature?'ยังไม่ได้สร้างไฟล์สำรอง':S.backupSignature===backupSignature()?'ไม่มีข้อมูลใหม่หลังสร้างไฟล์สำรองล่าสุด':'มีข้อมูลเปลี่ยนหลังสำรองครั้งล่าสุด ควรส่งออกอีกครั้ง'}
 function nativeMoney(e){return e.currency==='THB'?thb(Math.abs(e.amount*e.rate)):jpy(Math.abs(e.amount))}
@@ -134,8 +134,8 @@ function translatorPanel(){return `<details class="translator-composer"><summary
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(b?.dataset.action==='translatecompose'){const value=$('#translateText').value.trim();if(!value){toast('พิมพ์ข้อความที่ต้องการแปลก่อน');return}const [from,to]=$('[name=translatePair]').value.split('-');window.open(translateURL(value,from,to),'_blank','noopener,noreferrer')}});
 
 // ICHI-JAPAN 1.4.0: public trips, groups, travel tools and itinerary controls.
-const APP_VERSION='1.5.9';
-const APP_BUILD=1590;
+const APP_VERSION='1.5.8';
+const APP_BUILD=1583;
 const personOptions=(t=T())=>t.people.map((n,i)=>[String(i),n]);
 function payerIndex(e){return Number.isInteger(e.payerIndex)?e.payerIndex:e.payer==='other'?1:0}
 function sharesOf(e,t=T()){if(Array.isArray(e.shares))return t.people.map((_,i)=>e.shares[i]||0);return t.people.map((_,i)=>i===0?e.mine:i===1?e.amount-e.mine:0)}
@@ -903,7 +903,7 @@ function immigrationQuestionRows157(){
 }
 immigrationView=function(){
  const t=T(),p=immigrationProfile157(t),r=immigrationReadiness157(t),nrt=t.airport==='nrt';
- return `<section class="imm-hero157"><div><span class="eyebrow">IMMIGRATION COACH · v1.5.9</span><h2>ซ้อม ตม. ให้ตอบสั้น ตรง และตรงกับเอกสาร</h2><p>ระบบใช้วันเดินทาง โรงแรม แผนเที่ยว และข้อมูลที่คุณกรอก เพื่อช่วยเตรียมคำตอบ — ถ้าข้อมูลยังไม่มี จะไม่แต่งให้เอง</p></div><div class="imm-score157"><b>${r.ready}/${r.total}</b><span>ข้อมูลพร้อม</span></div></section>
+ return `<section class="imm-hero157"><div><span class="eyebrow">IMMIGRATION COACH · v1.5.8</span><h2>ซ้อม ตม. ให้ตอบสั้น ตรง และตรงกับเอกสาร</h2><p>ระบบใช้วันเดินทาง โรงแรม แผนเที่ยว และข้อมูลที่คุณกรอก เพื่อช่วยเตรียมคำตอบ — ถ้าข้อมูลยังไม่มี จะไม่แต่งให้เอง</p></div><div class="imm-score157"><b>${r.ready}/${r.total}</b><span>ข้อมูลพร้อม</span></div></section>
  <div class="notice">นี่คือเครื่องมือซ้อมภาษาและจัดข้อมูล ไม่ใช่รายการคำถามตายตัวหรือการรับรองผ่านเข้าเมือง เจ้าหน้าที่อาจถามต่างออกไป ให้ตอบตามจริงเสมอ</div>
  <section class="imm-actions157">${btn('▶ ซ้อม ตม. 8 วินาที','practiceimmigration157','primary')}${btn('🧳 ซ้อมศุลกากร','practicecustoms157','soft')}${btn('🎲 สุ่มผสม','practicemixed157','soft')}${btn('✎ แก้ข้อมูลคำตอบ','immigrationprofile157')}</section>
  <section class="card imm-ready157"><div class="cardhead"><div><span class="eyebrow">QUICK ANSWER CARD</span><h2>คำตอบที่ควรพูดได้ทันที</h2></div>${btn('คัดลอกไว้ท่อง','immigrationcopy157','small')}</div>${quickImmigrationCard157()}</section>
@@ -1029,7 +1029,7 @@ $('#modal')?.addEventListener('close',stopPracticeTimer157);
 
 save();render();
 
-// === 1.5.9 · JOINT KIOSK ARRIVAL GUIDE · Build 1590 =======================
+// === 1.5.8 · JOINT KIOSK ARRIVAL GUIDE · Build 1583 =======================
 // Official-data refresh: 5 Oct 2026. This extends the v1.5.7 Immigration
 // Coach without changing trip storage, QA answers, bookings, or routes.
 const JOINT_KIOSK_AIRPORTS_158={
@@ -1073,7 +1073,7 @@ function jointKioskGuide158(){
 
 immigrationView=function(){
  const t=T(),r=immigrationReadiness157(t);
- return `<section class="imm-hero157"><div><span class="eyebrow">IMMIGRATION COACH · v1.5.9</span><h2>ซ้อม ตม. ให้ตอบสั้น ตรง และตรงกับเอกสาร</h2><p>ระบบใช้วันเดินทาง โรงแรม แผนเที่ยว และข้อมูลที่คุณกรอก เพื่อช่วยเตรียมคำตอบ — ถ้าข้อมูลยังไม่มี จะไม่แต่งให้เอง</p></div><div class="imm-score157"><b>${r.ready}/${r.total}</b><span>ข้อมูลพร้อม</span></div></section>
+ return `<section class="imm-hero157"><div><span class="eyebrow">IMMIGRATION COACH · v1.5.8</span><h2>ซ้อม ตม. ให้ตอบสั้น ตรง และตรงกับเอกสาร</h2><p>ระบบใช้วันเดินทาง โรงแรม แผนเที่ยว และข้อมูลที่คุณกรอก เพื่อช่วยเตรียมคำตอบ — ถ้าข้อมูลยังไม่มี จะไม่แต่งให้เอง</p></div><div class="imm-score157"><b>${r.ready}/${r.total}</b><span>ข้อมูลพร้อม</span></div></section>
  <div class="notice">นี่คือเครื่องมือซ้อมภาษาและจัดข้อมูล ไม่ใช่รายการคำถามตายตัวหรือการรับรองผ่านเข้าเมือง เจ้าหน้าที่อาจถามต่างออกไป ให้ตอบตามจริงเสมอ</div>
  <section class="imm-actions157">${btn('▶ ซ้อม ตม. 8 วินาที','practiceimmigration157','primary')}${btn('🧳 ซ้อมศุลกากร','practicecustoms157','soft')}${btn('🎲 สุ่มผสม','practicemixed157','soft')}${btn('✎ แก้ข้อมูลคำตอบ','immigrationprofile157')}</section>
  ${jointKioskTeaser158()}
@@ -1092,40 +1092,3 @@ document.addEventListener('click',e=>{
 
 save();render();
 
-
-
-// === 1.5.9 · UX / VISUAL BALANCE · Build 1590 =============================
-// Final stabilization pass before v1.6. No feature is removed. This layer only
-// improves hierarchy, page order and contextual visibility of existing tools.
-function polish159(){
- const app=$('#app');if(!app)return;
- const direct=cls=>[...app.children].find(x=>x.classList?.contains(cls));
- document.body.dataset.page=page;
- app.classList.add('balanced159');
-
- // Travel: keep the six core tools visible, but show Rail Guide only where it
- // is useful. This avoids stacking a second navigation block above the tabs.
- if(page==='travel'){
-  const nav=app.querySelector('.travelnav'),rail=app.querySelector('.rail-shortcut');
-  if(nav&&rail){nav.after(rail);rail.hidden=!['routes','maps'].includes(travelTab)}
-  const labels={guide:'สนามบิน',routes:'เส้นทาง',maps:'แผนที่',phrases:'ภาษา',immigration:'ตม. ญี่ปุ่น',manners:'มารยาท'};
-  app.querySelectorAll('.travelnav-item').forEach(x=>{const key=x.dataset.travel,span=x.querySelector('span');if(span&&labels[key])span.textContent=labels[key]});
- }
-
- // Plan used to render smart controls before the page title because features
- // were layered over several releases. Reorder existing nodes into a natural
- // use flow: heading -> day -> smart checks -> day status -> itinerary.
- if(page==='plan'){
-  const title=direct('titleline'),dates=app.querySelector('.plan-date-tabs'),smart=app.querySelector('.plan-smartbar'),strip=app.querySelector('.day-control-strip');
-  if(title){app.prepend(title);let anchor=title;for(const node of [dates,smart,strip])if(node){anchor.after(node);anchor=node}}
- }
-
- // Give every page a stable hook without changing any feature markup.
- direct('titleline')?.classList.add('page-title159');
-}
-
-const renderBefore159=render;
-render=function(){renderBefore159();polish159()};
-
-// Refresh once so the current screen immediately uses the 1.5.9 hierarchy.
-render();
