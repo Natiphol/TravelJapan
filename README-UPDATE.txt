@@ -1,75 +1,53 @@
-ICHI-JAPAN v1.5.7 · Build 1570
-Ticket & Booking 2.0 + Immigration Coach
-อัปเดต 2 ตุลาคม 2026
+ICHI-JAPAN v1.5.8 · Build 1581
+Joint Kiosk Arrival Guide + Immigration Coach Update
+อัปเดต 5 ตุลาคม 2026
 
 ฐานของรุ่นนี้
-- พัฒนาต่อจาก v1.5.6 Build 1563 ที่ freeze แล้ว
+- ใช้ source v1.5.7 Build 1570 ที่ผู้ใช้ส่งมาเป็นฐานโดยตรง
+- ไม่ใช้ Emergency Restore / 1.5.8 Build 1580 เป็นฐาน
 - ไม่เปลี่ยน localStorage key: tabi-v1
-- ข้อมูลทริปเดิม, Transportation, Booking status, Hotel, Money และไฟล์ใน IndexedDB ยังใช้ต่อได้
-- ฟิลด์ใหม่เป็น optional เพื่อไม่บังคับข้อมูลเก่า
+- Transportation, Ticket & Booking 2.0, Immigration Coach 52 หัวข้อ, Money, Hotel, Discover และข้อมูลเดิมอยู่ครบ
 
-ของใหม่: IMMIGRATION COACH
-- คลังฝึก 52 หัวข้อ แยก ตม. / ศุลกากร / ประโยคช่วยสื่อสาร
-- Practice Mode 8 วินาที: ตม., ศุลกากร หรือสุ่มผสม
-- English + คำอ่านไทย + ความหมาย/คำแนะนำ
-- Quick Answer Card สร้างจากข้อมูลทริปจริง เช่น
-  จุดประสงค์, จำนวนวัน, ที่พักคืนแรก, วันออกจากญี่ปุ่น, อาชีพ,
-  ผู้ร่วมทริป, เที่ยวบินเข้า/กลับ
-- Immigration Profile สำหรับกรอกข้อมูลที่ไม่ได้อยู่ในแผน เช่น
-  อาชีพ, เที่ยวบิน, ประเทศที่จะกลับ/เดินทางต่อ, วิธีออกค่าใช้จ่าย,
-  เงินสดโดยประมาณ, ผู้ติดต่อในญี่ปุ่น, Visit Japan Web
-- แยกหลักฐานออกจากข้อมูลทั่วไป:
-  ต้องติ๊กเองว่าเปิดใบจองโรงแรมได้ / เปิดตั๋วกลับได้ จึงจะสร้างคำตอบ
-  “Here is my hotel reservation / return ticket” ให้อัตโนมัติ
-- ถ้าข้อมูลไม่พอ ระบบขึ้น “ยังไม่ได้กรอก” ไม่เดาคำตอบแทน
-- Customs จะไม่ตัดสินแทนว่าของใดต้องสำแดง ต้องตรวจของจริงและข้อมูลทางการ
-- มี Arrival Flow แยก Immigration → Baggage Claim → Customs
-- ถ้าทริปใช้ NRT จะมี note เรื่อง Joint Kiosk ตามข้อมูลทางการล่าสุด
-- ข้อมูลคำตอบและ profile เก็บใน browser นี้ ไม่ส่งขึ้น server
+ของใหม่: JOINT KIOSK ARRIVAL GUIDE
+- เพิ่มการ์ด Joint Kiosk ในหน้า เดินทาง > เตรียม ตม.
+- เพิ่มคู่มือแบบเต็มใน Modal โดยไม่ทำหน้า Immigration ยาวเกินไป
+- แสดง flow: Visit Japan Web QR + Passport → Joint Kiosk → Dedicated Immigration Booth → Baggage Claim → Customs Gate
+- สนามบินที่หน้า Japan Customs ระบุว่ารองรับ ณ 5 ต.ค. 2026:
+  • Narita T1 / T2 / T3
+  • Haneda T2 / T3
+  • Kansai T1 / T2
+  • Fukuoka
+- เน้นสนามบินของทริปปัจจุบันอัตโนมัติ (NRT/HND/KIX)
+- ข้อควรรู้: ทำทีละคน, ต่ำกว่า 135 ซม. ใช้ตู้ไม่ได้, ถอดสิ่งปิดบังใบหน้า, รถเข็นใช้ได้, non-IC passport มีข้อจำกัด e-Gate
+- เตือนชัดว่า Joint Kiosk ไม่ได้รับประกันว่าจะไม่ถูกตรวจเพิ่มเติมโดยศุลกากร
+- ไม่ใช้คำโฆษณาว่า “เร็วขึ้น 20 นาที” เพราะแหล่งทางการไม่ได้รับประกันตัวเลขดังกล่าว
+- แหล่งข้อมูลและวันที่ตรวจล่าสุดอยู่ในหน้าเว็บ
 
-ของใหม่: TICKET & BOOKING 2.0
-- รายละเอียด Booking เพิ่ม:
-  ประเภท, ผู้ให้บริการ/Platform, Booking No., จำนวนคน,
-  ราคาเยน, การชำระ, เวลาเผื่อไปถึงก่อน, Cancellation deadline,
-  Booking URL และหมายเหตุ
-- Booking Hub แสดง Focus Day, ต้องจอง, จองแล้ว และ deadline ที่บันทึกไว้
-- Ticket Wallet 2.0 แยกตั๋ววันใช้งาน/ตั๋วทั้งหมด และเตือนรายการจองแล้วแต่ยังไม่มีไฟล์
-- คัดลอก Booking No. ได้ พร้อม fallback สำหรับ browser ที่ Clipboard API ไม่พร้อม
-- Live Trip แสดง Booking สำคัญของ Next Stop
-- arrival buffer ของ Booking ถูกนำไปช่วยคำนวณ “ควรออกเมื่อไร”
-- Smart Action Queue เตือน Cancellation deadline ใกล้ถึง และเปิดรายการนั้นได้ตรงตัว
+รูปประกอบ ICHI-JAPAN
+- joint-kiosk-overview.png
+- joint-kiosk-steps.png
+- joint-kiosk-rules.png
+รูปเหล่านี้เป็นภาพประกอบที่จัดทำใหม่สำหรับ ICHI-JAPAN ไม่ใช่ไฟล์ภาพต้นฉบับจากโพสต์ที่ผู้ใช้ส่งมา
+รายละเอียดข้อเท็จจริงให้ยึดข้อความในหน้าเว็บและแหล่ง Official ซึ่งตรวจ 5 ต.ค. 2026
 
-หลักความปลอดภัยของข้อมูล ตม.
-- คำถามฝึกเป็นแบบจำลองเพื่อเตรียมตัว ไม่ใช่รายการคำถามตายตัวของเจ้าหน้าที่
-- ให้ตอบตามจริงและให้ตรงกับพาสปอร์ต/ตั๋ว/ใบจอง/แผนเดินทาง
-- ระบบไม่เดาสถานะวีซ่า, ประวัติ ตม., การทำงานในญี่ปุ่น,
-  ของต้องสำแดง หรือข้อมูลส่วนตัวที่ยังไม่ได้กรอก
-- Visit Japan Web และขั้นตอนสนามบินอาจเปลี่ยน ให้ดูเว็บไซต์ทางการก่อนเดินทาง
-
-แหล่งข้อมูลทางการที่ใช้ตรวจทาน ณ 2 ต.ค. 2026
-- Immigration Services Agency of Japan — Foreign national landing procedures
-  https://www.moj.go.jp/isa/immigration/procedures/zyouriku_00001.html
-- Visit Japan Web — Official guide
+แหล่งข้อมูลทางการ
+- Japan Customs — Joint Kiosk
+  https://www.customs.go.jp/kaigairyoko/pilot_kiosk.html
+- Japan Customs — Narita T1/T2 expansion, operation from 24 Sep 2026
+  https://www.customs.go.jp/kaigairyoko/20260918.html
+- Digital Agency — Visit Japan Web Guide
   https://services.digital.go.jp/visit-japan-web/guide/
 - Visit Japan Web
   https://www.vjw.digital.go.jp/
-- Japan Customs — Joint Kiosk
-  https://www.customs.go.jp/kaigairyoko/pilot_kiosk.html
-- Japan Customs — Electronic declaration / Visit Japan Web
-  https://www.customs.go.jp/kaigairyoko/egate/egate_leaflet_e.pdf
+- Immigration Services Agency — Landing procedures
+  https://www.moj.go.jp/isa/immigration/procedures/zyouriku_00001.html
 
-วิธีอัปเดต GitHub Pages
-1. แนะนำให้เปิดเว็บเดิม > ทริปของฉัน > ส่งออกสำรอง ก่อนอัปเดต
-2. แตก ZIP แล้วอัปโหลดไฟล์เว็บ 11 ไฟล์ที่ root ของ repository TravelJapan
-   ให้ index.html, app.js, sw.js ฯลฯ อยู่ระดับเดิม ห้ามสร้างโฟลเดอร์ v1.5.7 ซ้อน
-3. Commit แล้วรอ GitHub Pages deploy
-4. เปิดเว็บขณะออนไลน์ ปิดแท็บเก่าแล้วเปิดใหม่
-5. ตรวจ footer ให้ขึ้น v1.5.7 · b1570
-6. เข้า ทริปของฉัน > ตรวจอัปเดต และกดเตรียมใช้ออฟไลน์ใหม่
-7. ทดลองเปิดโหมดเครื่องบิน แล้วเปิด Dashboard / Plan / Transportation /
-   Immigration Coach เพื่อยืนยันว่า core data พร้อม
+Offline
+- รูป Joint Kiosk ทั้ง 3 รูปถูกเพิ่มเข้า guide pack ของ Service Worker
+- Core build reference ใช้ 1581 ตรงกันใน index/app/discover/service worker
+- หลังอัปเดต ให้เข้า ทริปของฉัน > เตรียมใช้ออฟไลน์ใหม่ เพื่อเก็บ guide pack รุ่นใหม่
 
-ไฟล์ที่ต้องอัปโหลด
+ไฟล์ใน ZIP
 - index.html
 - app.js
 - style.css
@@ -81,18 +59,24 @@ Ticket & Booking 2.0 + Immigration Coach
 - places-data.js
 - recover.html
 - README-UPDATE.txt
+- joint-kiosk-overview.png
+- joint-kiosk-steps.png
+- joint-kiosk-rules.png
 
-Regression checklist ที่ตรวจในชุด build นี้
-- JavaScript syntax: app.js / travel-data.js / discover.js / places-data.js
-- Build references: 1570 ตรงกันใน index/app/discover/service worker
-- Immigration question keys: 52 หัวข้อ ไม่ซ้ำกัน
-- ไม่มีการเปลี่ยน localStorage key
-- Route/Transportation จาก 1.5.6 ยังคงโครงสร้างเดิม
-- ค่า Booking ใหม่เป็น optional และ event เดิมยัง render ได้
-- Hotel proof / return-ticket proof ต้องยืนยันเองก่อนสร้างประโยคแสดงหลักฐาน
+วิธีอัปเดต GitHub Pages
+1. สำรอง JSON จากเว็บเดิมก่อน
+2. แตก ZIP แล้วอัปโหลดไฟล์ทั้งหมดทับที่ root ของ repository TravelJapan
+3. Commit และรอ GitHub Pages deploy
+4. เปิดเว็บขณะออนไลน์แล้วปิดแท็บเก่า/เปิดใหม่
+5. ตรวจ footer ให้ขึ้น v1.5.8 · b1581
+6. เข้า ทริปของฉัน > ตรวจอัปเดต
+7. กดเตรียมใช้ออฟไลน์ใหม่
+8. ทดสอบ เดินทาง > เตรียม ตม. > เปิดคู่มือ Joint Kiosk
 
-หมายเหตุ
-- Google Maps, Official Booking URL และเว็บไซต์ทางการต้องใช้อินเทอร์เน็ต
-- ข้อมูล Immigration Coach และคำตอบจากทริปอ่านได้ออฟไลน์หลัง core app พร้อม
-- Ticket/PDF/ภาพที่แนบเก็บในอุปกรณ์นี้ ควร Export Backup ก่อนเดินทาง
-- แอปไม่ได้ยืนยันสถานะการจอง, ราคา, cancellation policy หรือผลการตรวจคนเข้าเมืองแบบสด
+Regression ที่ต้องผ่าน
+- app.js / travel-data.js / discover.js / places-data.js syntax ผ่าน
+- version/build references เป็น 1.5.8 / 1581
+- localStorage key ยังเป็น tabi-v1
+- Immigration QA 52 หัวข้อเดิมไม่ถูกลบ
+- Booking/Transportation functions เดิมยังอยู่
+- Service Worker guide pack มี Joint Kiosk images ครบ 3 ไฟล์
